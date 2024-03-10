@@ -28,4 +28,9 @@ Route::get('/login', [App\Http\Controllers\AuthController::class, 'create'])->na
 
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'store']);
 
+Route::get('/clients/add', [ClientController::class, 'create'])->middleware('auth')->name('addClient');
+
+Route::post('/clients', [ClientController::class, 'store'])->middleware('auth');
+
+
 // Create additional Routes below
