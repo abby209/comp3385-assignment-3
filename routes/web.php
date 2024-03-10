@@ -22,6 +22,10 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
+
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'create'])->name('login');
+
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'store']);
 
 // Create additional Routes below
