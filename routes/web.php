@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ClientController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +28,18 @@ Route::get('/about', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-Route::get('/login', [App\Http\Controllers\AuthController::class, 'create'])->name('login');
 
-Route::post('/login', [App\Http\Controllers\AuthController::class, 'store']);
+Route::get('/login', [AuthController::class, 'create'])->name('login');
 
-Route::get('/clients/add', [ClientController::class, 'create'])->middleware('auth')->name('addClient');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/logout', [AuthController::class, 'logout']);
+
+Route::get('/register', [RegisterController::class, 'create']);
+
+Route::post('/register', [RegisterController::class, 'store']);
+
+Route::get('/clients', [ClientController::class, 'create'])->middleware('auth')->name('addClient');
 
 Route::post('/clients', [ClientController::class, 'store'])->middleware('auth');
 

@@ -7,8 +7,9 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index()
     {
-        return view('dashboard');
+        $clients = Client::all(); // Get all clients
+        return view('dashboard', compact('clients')); // Pass clients to view
     }
 }
