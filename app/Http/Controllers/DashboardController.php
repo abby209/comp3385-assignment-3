@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Client;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $clients = Client::all(); // Get all clients
-        return view('dashboard', compact('clients')); // Pass clients to view
+        $clients = Client::all();
+
+        return view('dashboard', compact('clients'));
     }
 }

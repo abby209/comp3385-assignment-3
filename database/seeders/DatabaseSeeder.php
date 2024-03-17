@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@comp3385.com',
             ]);
-        }
+    
+    }
 }

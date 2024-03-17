@@ -2,42 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function create(): View
+    /**
+     * Show the registration form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
     {
         return view('auth.login');
     }
 
-    public function login(Request $request): RedirectResponse
+    /**
+     * Store a newly created user in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
         ]);
 
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials)) {
-            return redirect('/login')->with('error', 'Invalid credentials. Check the email address and password entered.');
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect('/dashboard')->with('success', 'Login successful');
         }
 
-        $request->session()->put('favorite_class', 'COMP3385');
-
-        return redirect('route.clients')->with('success', 'Login successful');
-    }
-
-    public function logout(Request $request) : RedirectResponse
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/')->with('success', 'User successfully logged out');
+        return back()->withInput()->withErrors([
+            'email' => 'Invalid credentials. Check the email address and password entered.',
+        ]);
     }
 }

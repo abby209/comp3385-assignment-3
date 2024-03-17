@@ -6,7 +6,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ClientController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,20 +27,12 @@ Route::get('/about', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
-
 Route::get('/login', [AuthController::class, 'create'])->name('login');
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'store']);
 
-Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/clients', [ClientController::class, 'create'])->middleware('auth')->name('clients.create');
 
-Route::get('/register', [RegisterController::class, 'create']);
-
-Route::post('/register', [RegisterController::class, 'store']);
-
-Route::get('/clients', [ClientController::class, 'create'])->middleware('auth')->name('addClient');
-
-Route::post('/clients', [ClientController::class, 'store'])->middleware('auth');
-
+Route::post('/clients', [ClientController::class, 'store'])->middleware('auth')->name('clients.store');
 
 // Create additional Routes below
